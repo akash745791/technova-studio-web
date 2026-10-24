@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, AlertCircle, Loader2, ArrowRight, MessageSquare, RefreshCw } from "lucide-react";
+import { CheckCircle2, AlertCircle, Loader2, ArrowRight, MessageSquare, RefreshCw, Mail, Phone } from "lucide-react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -13,13 +13,17 @@ export default function ContactForm() {
     project_title: "General Contact Enquiry",
     project_description: "",
     preferred_contact_method: "whatsapp" as "email" | "whatsapp" | "phone",
-    privacy_consent: false,
+    privacy_consent: true,
     honeypot: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const getPreFilledMessage = (refId: string) => {
+    return `Hello TECHNOVA STUDIO! 🚀\nI have sent a message via your website contact form.\n\n📋 Reference ID: ${refId}\n👤 Name: ${formData.client_name}\n📱 Phone/WhatsApp: ${formData.phone || "N/A"}\n✉️ Email: ${formData.email}\n📝 Message: ${formData.project_description}`;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -54,7 +58,23 @@ export default function ContactForm() {
         return;
       }
 
-      setSubmittedRef(result.reference_id);
+      const refId = result.reference_id;
+      setSubmittedRef(refId);
+
+      // Auto-trigger user's selected contact method
+      const messageBody = getPreFilledMessage(refId);
+
+      if (formData.preferred_contact_method === "whatsapp") {
+        const waUrl = `https://wa.me/917457912227?text=${encodeURIComponent(messageBody)}`;
+        window.open(waUrl, "_blank");
+      } else if (formData.preferred_contact_method === "email") {
+        const mailUrl = `mailto:technovastudio.in@gmail.com?subject=${encodeURIComponent(
+          `Contact Enquiry [${refId}]: ${formData.client_name}`
+        )}&body=${encodeURIComponent(messageBody)}`;
+        window.location.href = mailUrl;
+      } else if (formData.preferred_contact_method === "phone") {
+        window.location.href = "tel:+917457912227";
+      }
     } catch {
       setErrorMessage("A network connection error occurred. Please try again.");
     } finally {
@@ -70,21 +90,58 @@ export default function ContactForm() {
         </div>
         <h3 className="text-2xl sm:text-3xl font-display font-normal text-[#1F2421] mb-2">Message Received</h3>
         <p className="text-xs sm:text-sm text-[#5B6358] mb-4 font-sans">
-          Thank you for contacting TECHNOVA STUDIO. We will get in touch shortly via your preferred channel.
+          Thank you for contacting TECHNOVA STUDIO. We have logged your enquiry and initiated your preferred channel ({formData.preferred_contact_method === "whatsapp" ? "WhatsApp" : formData.preferred_contact_method === "email" ? "Email" : "Phone Call"}).
         </p>
         <div className="bg-[#FEFAE0] py-2 px-4 rounded-xl inline-block border border-[#CCD5AE] mb-6 font-mono text-xs text-[#A06733] font-bold">
           Ref: {submittedRef}
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href={`https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20have%20an%20enquiry%20(Ref%3A%20${submittedRef}).`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] text-white font-semibold text-xs font-mono shadow-sm"
-          >
-            <MessageSquare className="w-4 h-4" />
-            <span>Open WhatsApp Chat</span>
-          </a>
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center">
+          {formData.preferred_contact_method === "whatsapp" && (
+            <a
+              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] text-white font-semibold text-xs font-archia tracking-wide shadow-sm hover:brightness-105 transition-all"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Open WhatsApp Chat</span>
+            </a>
+          )}
+
+          {formData.preferred_contact_method === "email" && (
+            <a
+              href={`mailto:technovastudio.in@gmail.com?subject=${encodeURIComponent(
+                `Contact Enquiry [${submittedRef}]: ${formData.client_name}`
+              )}&body=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#041214] text-[#FEFAE0] font-semibold text-xs font-archia tracking-wide shadow-sm hover:bg-[#D4A373] hover:text-[#1F2421] transition-all"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Send Direct Email</span>
+            </a>
+          )}
+
+          {formData.preferred_contact_method === "phone" && (
+            <a
+              href="tel:+917457912227"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#D4A373] text-[#041214] font-semibold text-xs font-archia tracking-wide shadow-sm hover:bg-[#FDBB4F] transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call Studio Direct (+91 74579 12227)</span>
+            </a>
+          )}
+
+          {formData.preferred_contact_method !== "whatsapp" && (
+            <a
+              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366]/15 border border-[#25D366]/40 text-[#1F2421] font-semibold text-xs font-archia tracking-wide hover:bg-[#25D366]/25 transition-all"
+            >
+              <MessageSquare className="w-4 h-4 text-[#25D366]" />
+              <span>WhatsApp Us</span>
+            </a>
+          )}
+
           <button
             onClick={() => {
               setSubmittedRef(null);
@@ -97,7 +154,7 @@ export default function ContactForm() {
                 project_title: "General Contact Enquiry",
                 project_description: "",
                 preferred_contact_method: "whatsapp",
-                privacy_consent: false,
+                privacy_consent: true,
                 honeypot: "",
               });
             }}
@@ -176,6 +233,22 @@ export default function ContactForm() {
             className="w-full px-4 py-2.5 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs font-mono text-[#1F2421] placeholder-[#8A9486] focus:outline-none focus:ring-2 focus:ring-[#D4A373]"
           />
         </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-mono uppercase text-[#5B6358] mb-1.5 font-bold">
+          Preferred Contact Method
+        </label>
+        <select
+          name="preferred_contact_method"
+          value={formData.preferred_contact_method}
+          onChange={handleChange}
+          className="w-full px-4 py-2.5 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs font-mono text-[#1F2421] focus:outline-none focus:ring-2 focus:ring-[#D4A373]"
+        >
+          <option value="whatsapp">WhatsApp (Direct Chat)</option>
+          <option value="email">Email (Direct Mail)</option>
+          <option value="phone">Direct Phone Call</option>
+        </select>
       </div>
 
       <div>

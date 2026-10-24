@@ -3,7 +3,7 @@ import { z } from "zod";
 export const enquirySchema = z.object({
   client_name: z
     .string()
-    .min(2, "Full name must be at least 2 characters")
+    .min(1, "Please provide your full name")
     .max(100, "Full name cannot exceed 100 characters"),
   email: z
     .string()
@@ -24,11 +24,11 @@ export const enquirySchema = z.object({
     .min(1, "Please select a service or choose 'General Project Discussion'"),
   project_title: z
     .string()
-    .min(3, "Project title must be at least 3 characters")
+    .min(1, "Please enter a project title or objective")
     .max(150, "Project title cannot exceed 150 characters"),
   project_description: z
     .string()
-    .min(15, "Please share at least a short description of what you want to build (min 15 characters)")
+    .min(2, "Please provide a brief description of what you want to build")
     .max(4000, "Description cannot exceed 4000 characters"),
   budget_range: z
     .string()

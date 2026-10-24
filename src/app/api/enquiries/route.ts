@@ -12,11 +12,15 @@ export async function POST(req: NextRequest) {
     // 1. Zod validation & Honeypot check
     const parsed = enquirySchema.safeParse(body);
     if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors;
+      const firstErrorMessage =
+        Object.values(fieldErrors).flat()[0] || "Please check the required fields";
       return NextResponse.json(
         {
           success: false,
-          error: "Validation failed",
-          details: parsed.error.flatten().fieldErrors,
+          error: firstErrorMessage,
+          fieldErrors,
+          details: fieldErrors,
         },
         { status: 400 }
       );

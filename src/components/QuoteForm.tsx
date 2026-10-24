@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, AlertCircle, Loader2, ArrowRight, Shield, MessageSquare, RefreshCw } from "lucide-react";
+import {
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  ArrowRight,
+  Shield,
+  MessageSquare,
+  RefreshCw,
+  Mail,
+  Phone,
+} from "lucide-react";
 
 interface QuoteFormProps {
   initialServiceSlug?: string;
@@ -49,7 +59,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
     budget_range: "Flexible / To Be Discussed",
     timeline: "Standard (3-4 weeks)",
     preferred_contact_method: "whatsapp" as "email" | "whatsapp" | "phone",
-    privacy_consent: false,
+    privacy_consent: true,
     honeypot: "",
   });
 
@@ -57,6 +67,12 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+
+  const getPreFilledMessage = (refId: string) => {
+    const serviceLabel =
+      serviceOptions.find((s) => s.slug === formData.service_slug)?.label || formData.service_slug;
+    return `Hello TECHNOVA STUDIO! 🚀\nI have submitted a project enquiry on your website.\n\n📋 Reference ID: ${refId}\n👤 Name: ${formData.client_name}\n📱 Phone/WhatsApp: ${formData.phone || "N/A"}\n✉️ Email: ${formData.email}\n🏢 Business: ${formData.business_name || "N/A"}\n💼 Service: ${serviceLabel}\n💡 Project: ${formData.project_title}\n📝 Scope: ${formData.project_description}\n💰 Budget: ${formData.budget_range}\n⏱️ Timeline: ${formData.timeline}`;
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -93,16 +109,31 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        if (data.fieldErrors) {
-          setFieldErrors(data.fieldErrors);
-          setErrorMessage(data.error || "Please correct the highlighted form errors.");
-        } else {
-          setErrorMessage(data.error || "An error occurred while submitting your enquiry.");
+        const errors = data.fieldErrors || data.details;
+        if (errors) {
+          setFieldErrors(errors);
         }
+        setErrorMessage(data.error || "Please check the highlighted form errors.");
         return;
       }
 
-      setSubmittedRef(data.reference_id);
+      const refId = data.reference_id;
+      setSubmittedRef(refId);
+
+      // Auto-trigger user's selected contact channel immediately
+      const messageBody = getPreFilledMessage(refId);
+
+      if (formData.preferred_contact_method === "whatsapp") {
+        const waUrl = `https://wa.me/917457912227?text=${encodeURIComponent(messageBody)}`;
+        window.open(waUrl, "_blank");
+      } else if (formData.preferred_contact_method === "email") {
+        const mailUrl = `mailto:technovastudio.in@gmail.com?subject=${encodeURIComponent(
+          `Project Enquiry [${refId}]: ${formData.project_title} - ${formData.client_name}`
+        )}&body=${encodeURIComponent(messageBody)}`;
+        window.location.href = mailUrl;
+      } else if (formData.preferred_contact_method === "phone") {
+        window.location.href = "tel:+917457912227";
+      }
     } catch {
       setErrorMessage("Network error occurred. Please check your connection or contact us via WhatsApp directly.");
     } finally {
@@ -123,7 +154,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
       budget_range: "Flexible / To Be Discussed",
       timeline: "Standard (3-4 weeks)",
       preferred_contact_method: "whatsapp",
-      privacy_consent: false,
+      privacy_consent: true,
       honeypot: "",
     });
   };
@@ -140,7 +171,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
         </h3>
 
         <p className="text-sm text-[#5B6358] max-w-lg mx-auto mb-6 font-sans">
-          Your project specification has been logged in our internal system. An engineer will review your blueprint and contact you via {formData.preferred_contact_method}.
+          Your project specification has been logged successfully in our system. We have initiated your selected contact channel ({formData.preferred_contact_method === "whatsapp" ? "WhatsApp" : formData.preferred_contact_method === "email" ? "Email" : "Phone Call"}).
         </p>
 
         <div className="inline-block bg-[#FEFAE0] border border-[#CCD5AE] rounded-2xl px-6 py-4 mb-8">
@@ -148,20 +179,57 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
           <span className="text-2xl font-mono font-bold text-[#A06733] tracking-wider">{submittedRef}</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-          <a
-            href={`https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20just%20submitted%20an%20enquiry%20(Reference%20ID%3A%20${submittedRef})%20regarding%20${encodeURIComponent(formData.project_title)}.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold text-xs font-archia tracking-wide hover:brightness-105 transition-all shadow-md"
-          >
-            <MessageSquare className="w-4 h-4" />
-            <span>Chat on WhatsApp</span>
-          </a>
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3.5 max-w-xl mx-auto">
+          {formData.preferred_contact_method === "whatsapp" && (
+            <a
+              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold text-xs font-archia tracking-wide hover:brightness-105 transition-all shadow-md"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Open WhatsApp Chat</span>
+            </a>
+          )}
+
+          {formData.preferred_contact_method === "email" && (
+            <a
+              href={`mailto:technovastudio.in@gmail.com?subject=${encodeURIComponent(
+                `Project Enquiry [${submittedRef}]: ${formData.project_title} - ${formData.client_name}`
+              )}&body=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#041214] text-[#FEFAE0] hover:bg-[#D4A373] hover:text-[#1F2421] font-semibold text-xs font-archia tracking-wide transition-all shadow-md"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Send Direct Email</span>
+            </a>
+          )}
+
+          {formData.preferred_contact_method === "phone" && (
+            <a
+              href="tel:+917457912227"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#D4A373] text-[#041214] hover:bg-[#FDBB4F] font-semibold text-xs font-archia tracking-wide transition-all shadow-md"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call Studio Direct (+91 74579 12227)</span>
+            </a>
+          )}
+
+          {/* Alternative channel buttons */}
+          {formData.preferred_contact_method !== "whatsapp" && (
+            <a
+              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25D366]/15 border border-[#25D366]/40 text-[#1F2421] font-semibold text-xs font-archia tracking-wide hover:bg-[#25D366]/25 transition-all"
+            >
+              <MessageSquare className="w-4 h-4 text-[#25D366]" />
+              <span>WhatsApp Us</span>
+            </a>
+          )}
 
           <button
             onClick={handleReset}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#FEFAE0] border border-[#CCD5AE] text-[#1F2421] font-medium text-xs font-archia tracking-wide hover:bg-[#E9EDC9] transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#FEFAE0] border border-[#CCD5AE] text-[#1F2421] font-medium text-xs font-archia tracking-wide hover:bg-[#E9EDC9] transition-all"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Submit Another Enquiry</span>
@@ -366,9 +434,9 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
             onChange={handleChange}
             className="w-full px-4 py-3 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-[#1F2421] text-xs font-mono focus:outline-none focus:ring-2 focus:ring-[#D4A373]"
           >
-            <option value="whatsapp">WhatsApp Message</option>
-            <option value="email">Email</option>
-            <option value="phone">Phone Call</option>
+            <option value="whatsapp">WhatsApp (Direct Chat)</option>
+            <option value="email">Email (Direct Mail)</option>
+            <option value="phone">Direct Phone Call</option>
           </select>
         </div>
       </div>
