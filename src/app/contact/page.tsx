@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Mail, Phone, Instagram, MessageSquare } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
+import EnquiryTrackerWidget from "@/components/EnquiryTrackerWidget";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -130,6 +131,9 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
+
+            {/* Reference ID Enquiry Tracker */}
+            <EnquiryTrackerWidget />
           </div>
 
           {/* Contact Message Form */}

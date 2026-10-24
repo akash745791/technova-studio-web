@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, MessageSquare, Phone } from "lucide-react";
+import { Menu, X, ArrowRight, MessageSquare, Phone, Search } from "lucide-react";
 import Logo from "./Logo";
+import TrackEnquiryModal from "./TrackEnquiryModal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,6 +19,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
 
   // Do not render public navbar on admin routes
   if (pathname?.startsWith("/admin")) {
@@ -91,7 +93,17 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setIsTrackModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold text-[#5B6358] hover:text-[#1F2421] border border-[#CCD5AE] hover:border-[#D4A373] rounded-lg transition-colors bg-[#FAEDCD] shadow-xs cursor-pointer"
+              title="Track Project Status by Reference ID"
+            >
+              <Search className="w-3.5 h-3.5 text-[#A06733]" />
+              <span>Track Status</span>
+            </button>
+
             <a
               href="https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20engineering%20project."
               target="_blank"
@@ -114,6 +126,14 @@ export default function Navbar() {
 
           {/* Mobile Hamburger Button */}
           <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={() => setIsTrackModalOpen(true)}
+              className="p-2 rounded-lg bg-[#FAEDCD] border border-[#CCD5AE] text-[#A06733]"
+              title="Track Status"
+            >
+              <Search className="w-4 h-4" />
+            </button>
             <Link
               href="/get-a-quote"
               className="px-3 py-1.5 text-xs font-archia font-semibold rounded-md text-[#FEFAE0] bg-[#041214]"
@@ -161,6 +181,21 @@ export default function Navbar() {
           </div>
 
           <div className="space-y-3 pt-6 border-t border-[#CCD5AE]">
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                setIsTrackModalOpen(true);
+              }}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-[#FAEDCD] border border-[#CCD5AE] text-xs font-mono font-bold text-[#1F2421]"
+            >
+              <div className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-[#A06733]" />
+                <span>Track Project Reference ID</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
             <Link
               href="/get-a-quote"
               className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#041214] text-[#FEFAE0] font-archia text-sm font-semibold tracking-wide"
@@ -181,6 +216,11 @@ export default function Navbar() {
           </div>
         </div>
       )}
+      {/* Track Enquiry Modal */}
+      <TrackEnquiryModal
+        isOpen={isTrackModalOpen}
+        onClose={() => setIsTrackModalOpen(false)}
+      />
     </header>
   );
 }

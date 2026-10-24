@@ -8,9 +8,11 @@ import Logo from "../Logo";
 interface AdminHeaderProps {
   onRefresh?: () => void;
   refreshing?: boolean;
+  isLive?: boolean;
+  lastSyncedText?: string;
 }
 
-export default function AdminHeader({ onRefresh, refreshing }: AdminHeaderProps) {
+export default function AdminHeader({ onRefresh, refreshing, isLive = true, lastSyncedText }: AdminHeaderProps) {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -37,12 +39,20 @@ export default function AdminHeader({ onRefresh, refreshing }: AdminHeaderProps)
       </div>
 
       <div className="flex items-center gap-3">
+        {isLive && (
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E9EDC9] border border-[#CCD5AE] text-[11px] font-mono text-[#1F2421]">
+            <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+            <span className="font-bold">LIVE SYNC</span>
+            {lastSyncedText && <span className="text-[#5B6358] text-[10px] ml-1">({lastSyncedText})</span>}
+          </div>
+        )}
+
         {onRefresh && (
           <button
             onClick={onRefresh}
             disabled={refreshing}
             className="p-2 rounded-xl bg-[#FEFAE0] border border-[#CCD5AE] text-[#5B6358] hover:text-[#1F2421] hover:bg-[#E9EDC9] transition-colors"
-            title="Refresh Data"
+            title="Refresh Data (Live auto-syncs every 6s)"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin text-[#A06733]" : ""}`} />
           </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   Filter,
@@ -15,6 +15,8 @@ import { formatDate } from "@/lib/utils";
 interface EnquiriesManagerProps {
   enquiries: Enquiry[];
   onUpdate: () => void;
+  targetRef?: string;
+  onClearTargetRef?: () => void;
 }
 
 const statusColors: Record<EnquiryStatus, { bg: string; text: string; border: string }> = {
@@ -26,7 +28,12 @@ const statusColors: Record<EnquiryStatus, { bg: string; text: string; border: st
   closed: { bg: "bg-stone-500/15", text: "text-stone-700", border: "border-stone-500/40" },
 };
 
-export default function EnquiriesManager({ enquiries, onUpdate }: EnquiriesManagerProps) {
+export default function EnquiriesManager({
+  enquiries,
+  onUpdate,
+  targetRef,
+  onClearTargetRef,
+}: EnquiriesManagerProps) {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
@@ -35,6 +42,21 @@ export default function EnquiriesManager({ enquiries, onUpdate }: EnquiriesManag
   const [saving, setSaving] = useState(false);
   const [retryingEmail, setRetryingEmail] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (targetRef && targetRef.trim()) {
+      const clean = targetRef.trim().toUpperCase();
+      const match = enquiries.find(
+        (e) => e.reference_id.toUpperCase() === clean || e.id.toUpperCase() === clean
+      );
+      if (match) {
+        openModal(match);
+      } else {
+        setSearch(clean);
+      }
+      onClearTargetRef?.();
+    }
+  }, [targetRef, enquiries, onClearTargetRef]);
 
   const filtered = enquiries.filter((e) => {
     const matchesStatus = filterStatus === "all" || e.status === filterStatus;
@@ -129,33 +151,70 @@ export default function EnquiriesManager({ enquiries, onUpdate }: EnquiriesManag
   return (
     <div className="space-y-6">
       {/* Search & Filter Bar */}
-      <div className="bg-[#FAEDCD]/80 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-[#8A9486] absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search name, email, ref, or title..."
-            className="w-full pl-10 pr-4 py-2 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs text-[#1F2421] placeholder-[#8A9486] focus:outline-none focus:ring-2 focus:ring-[#D4A373] font-mono"
-          />
+      <div className="bg-[#FAEDCD]/80 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl p-5 space-y-3.5 shadow-xs">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <div className="relative flex-1 w-full">
+            <Search className="w-4 h-4 text-[#A06733] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search Reference ID (e.g. TNS-2026-...), Client Name, Email, Phone..."
+              className="w-full pl-10 pr-9 py-2.5 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs text-[#1F2421] placeholder-[#8A9486] focus:outline-none focus:ring-2 focus:ring-[#D4A373] font-mono font-medium"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A9486] hover:text-[#1F2421]"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Filter className="w-4 h-4 text-[#8A9486] hidden sm:inline" />
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="w-full sm:w-auto px-3.5 py-2.5 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs text-[#1F2421] focus:outline-none focus:ring-2 focus:ring-[#D4A373] font-mono font-medium"
+            >
+              <option value="all">All Statuses ({enquiries.length})</option>
+              <option value="new">New ({enquiries.filter((e) => e.status === "new").length})</option>
+              <option value="reviewing">Reviewing</option>
+              <option value="contacted">Contacted</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Filter className="w-4 h-4 text-[#8A9486] hidden sm:inline" />
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full sm:w-auto px-3 py-2 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs text-[#1F2421] focus:outline-none focus:ring-2 focus:ring-[#D4A373] font-mono"
-          >
-            <option value="all">All Statuses ({enquiries.length})</option>
-            <option value="new">New</option>
-            <option value="reviewing">Reviewing</option>
-            <option value="contacted">Contacted</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="closed">Closed</option>
-          </select>
+        {/* Quick Filter Status Badges */}
+        <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-[#CCD5AE]/60 text-xs">
+          <span className="text-[10px] font-mono uppercase text-[#5B6358] mr-1 font-bold">Filter By:</span>
+          {["all", "new", "reviewing", "contacted", "in_progress", "completed"].map((st) => {
+            const count = st === "all" ? enquiries.length : enquiries.filter((e) => e.status === st).length;
+            const active = filterStatus === st;
+            return (
+              <button
+                key={st}
+                type="button"
+                onClick={() => setFilterStatus(st)}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-all ${
+                  active
+                    ? "bg-[#041214] text-[#FEFAE0]"
+                    : "bg-[#FEFAE0] border border-[#CCD5AE] text-[#5B6358] hover:text-[#1F2421]"
+                }`}
+              >
+                {st.replace("_", " ").toUpperCase()} ({count})
+              </button>
+            );
+          })}
+          <span className="ml-auto text-[11px] font-mono text-[#5B6358]">
+            Showing {filtered.length} of {enquiries.length} enquiries
+          </span>
         </div>
       </div>
 

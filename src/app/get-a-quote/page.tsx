@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import QuoteForm from "@/components/QuoteForm";
+import EnquiryTrackerWidget from "@/components/EnquiryTrackerWidget";
 
 export const metadata: Metadata = {
   title: "Request a Quote",
@@ -71,6 +72,11 @@ export default function GetAQuotePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Reference ID Enquiry Tracker */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <EnquiryTrackerWidget />
       </section>
     </div>
   );
