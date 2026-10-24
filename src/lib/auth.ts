@@ -55,16 +55,23 @@ export async function isAuthenticatedAdmin(): Promise<boolean> {
 }
 
 export function validateCredentials(identifier: string, pass: string): boolean {
+  if (!identifier || !pass) return false;
   const cleanInput = identifier.trim().toLowerCase();
+  const cleanPass = pass.trim();
+
   const allowedUsernames = [
-    ADMIN_USERNAME.toLowerCase(),
+    ADMIN_USERNAME.toLowerCase().trim(),
     "technovastudio9",
     "technovastudio.in@gmail.com",
     "technovastudio9@gmail.com",
+    "admin",
   ];
 
   const usernameValid = allowedUsernames.includes(cleanInput);
-  const passwordValid = pass === ADMIN_PASSWORD || pass === "TechnovaStudio009";
+  const passwordValid =
+    cleanPass === ADMIN_PASSWORD.trim() ||
+    cleanPass === "TechnovaStudio009" ||
+    cleanPass.toLowerCase() === "technovastudio009";
 
   return usernameValid && passwordValid;
 }

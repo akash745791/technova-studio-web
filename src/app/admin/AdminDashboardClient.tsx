@@ -26,14 +26,18 @@ interface AdminDashboardClientProps {
 }
 
 export default function AdminDashboardClient({
-  initialEnquiries,
-  initialServices,
-  initialProjects,
+  initialEnquiries = [],
+  initialServices = [],
+  initialProjects = [],
   initialSettings,
 }: AdminDashboardClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"overview" | "enquiries" | "services" | "projects" | "settings">("overview");
   const [refreshing, setRefreshing] = useState(false);
+
+  const safeEnquiries = Array.isArray(initialEnquiries) ? initialEnquiries : [];
+  const safeServices = Array.isArray(initialServices) ? initialServices : [];
+  const safeProjects = Array.isArray(initialProjects) ? initialProjects : [];
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -42,17 +46,17 @@ export default function AdminDashboardClient({
   };
 
   // Metrics
-  const totalEnquiries = initialEnquiries.length;
-  const newEnquiries = initialEnquiries.filter((e) => e.status === "new").length;
-  const inProgressEnquiries = initialEnquiries.filter((e) => e.status === "in_progress" || e.status === "reviewing").length;
-  const publishedServices = initialServices.filter((s) => s.published).length;
-  const publishedProjects = initialProjects.filter((p) => p.published).length;
+  const totalEnquiries = safeEnquiries.length;
+  const newEnquiries = safeEnquiries.filter((e) => e.status === "new").length;
+  const inProgressEnquiries = safeEnquiries.filter((e) => e.status === "in_progress" || e.status === "reviewing").length;
+  const publishedServices = safeServices.filter((s) => s.published).length;
+  const publishedProjects = safeProjects.filter((p) => p.published).length;
 
   const tabs = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "enquiries", label: `Enquiries (${newEnquiries > 0 ? `${newEnquiries} new` : totalEnquiries})`, icon: Inbox },
-    { id: "services", label: `Services (${initialServices.length})`, icon: Briefcase },
-    { id: "projects", label: `Portfolio (${initialProjects.length})`, icon: Layers },
+    { id: "services", label: `Services (${safeServices.length})`, icon: Briefcase },
+    { id: "projects", label: `Portfolio (${safeProjects.length})`, icon: Layers },
     { id: "settings", label: "Studio Settings", icon: Settings },
   ];
 
@@ -133,9 +137,9 @@ export default function AdminDashboardClient({
                 </button>
               </div>
 
-              {initialEnquiries.length > 0 ? (
+              {safeEnquiries.length > 0 ? (
                 <div className="divide-y divide-[#CCD5AE]/60">
-                  {initialEnquiries.slice(0, 5).map((enq) => (
+                  {safeEnquiries.slice(0, 5).map((enq) => (
                     <div key={enq.id} className="py-3.5 flex items-center justify-between gap-4">
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2">
@@ -169,17 +173,17 @@ export default function AdminDashboardClient({
 
         {/* TAB 2: ENQUIRIES */}
         {activeTab === "enquiries" && (
-          <EnquiriesManager enquiries={initialEnquiries} onUpdate={handleRefresh} />
+          <EnquiriesManager enquiries={safeEnquiries} onUpdate={handleRefresh} />
         )}
 
         {/* TAB 3: SERVICES */}
         {activeTab === "services" && (
-          <ServicesManager services={initialServices} onUpdate={handleRefresh} />
+          <ServicesManager services={safeServices} onUpdate={handleRefresh} />
         )}
 
         {/* TAB 4: PORTFOLIO */}
         {activeTab === "projects" && (
-          <ProjectsManager projects={initialProjects} onUpdate={handleRefresh} />
+          <ProjectsManager projects={safeProjects} onUpdate={handleRefresh} />
         )}
 
         {/* TAB 5: SITE SETTINGS */}

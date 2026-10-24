@@ -16,10 +16,10 @@ export default function AdminHeader({ onRefresh, refreshing }: AdminHeaderProps)
   const handleLogout = async () => {
     try {
       await fetch("/api/admin/auth", { method: "DELETE" });
-      router.push("/admin/login");
-      router.refresh();
+      window.location.href = "/admin/login";
     } catch (err) {
       console.error("Logout error:", err);
+      window.location.href = "/admin/login";
     }
   };
 

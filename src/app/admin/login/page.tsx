@@ -12,16 +12,25 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleAutoFill = () => {
+    setEmail("technovastudio9");
+    setPassword("TechnovaStudio009");
+    setError(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+
     try {
       const res = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: cleanEmail, password: cleanPassword }),
       });
 
       const data = await res.json();
@@ -31,8 +40,8 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin");
-      router.refresh();
+      // Hard navigation ensures session cookie is immediately sent to /admin server component
+      window.location.href = "/admin";
     } catch {
       setError("Network error occurred during authentication.");
     } finally {
@@ -123,10 +132,17 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="pt-4 border-t border-[#CCD5AE] text-center">
+        <div className="pt-4 border-t border-[#CCD5AE] text-center space-y-2">
           <p className="text-[11px] text-[#5B6358] font-mono">
             Default credentials: <span className="font-semibold text-[#1F2421]">technovastudio9</span> / <span className="font-semibold text-[#1F2421]">TechnovaStudio009</span>
           </p>
+          <button
+            type="button"
+            onClick={handleAutoFill}
+            className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-[#E9EDC9] hover:bg-[#D4A373] hover:text-[#1F2421] text-[11px] font-archia font-medium text-[#1F2421] border border-[#CCD5AE] transition-colors"
+          >
+            Auto-fill credentials
+          </button>
         </div>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { Service, Project, Enquiry, SiteSettings } from "./types";
 import { initialServices, initialProjects, initialSiteSettings } from "./data";
 import { isSupabaseConfigured, supabaseServer } from "./supabase";
 
-const DATA_DIR = path.join(process.cwd(), ".data");
-const STORE_FILE = path.join(DATA_DIR, "store.json");
+const LOCAL_DATA_DIR = path.join(process.cwd(), ".data");
+const LOCAL_STORE_FILE = path.join(LOCAL_DATA_DIR, "store.json");
+const TMP_STORE_FILE = path.join(os.tmpdir(), "technova_store.json");
 
 interface LocalStoreData {
   services: Service[];
@@ -14,42 +16,64 @@ interface LocalStoreData {
   settings: SiteSettings;
 }
 
+// Global in-memory cache to ensure serverless hot-reloads retain state without read-only disk errors
+let memoryStore: LocalStoreData | null = null;
+
 function ensureDataFile(): LocalStoreData {
+  if (memoryStore) return memoryStore;
+
+  const defaultData: LocalStoreData = {
+    services: initialServices,
+    projects: initialProjects,
+    enquiries: [],
+    settings: initialSiteSettings,
+  };
+
+  // 1. Try reading from /tmp if updated in this serverless runtime
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (fs.existsSync(TMP_STORE_FILE)) {
+      const content = fs.readFileSync(TMP_STORE_FILE, "utf8");
+      memoryStore = JSON.parse(content);
+      return memoryStore!;
     }
-    if (!fs.existsSync(STORE_FILE)) {
-      const initialData: LocalStoreData = {
-        services: initialServices,
-        projects: initialProjects,
-        enquiries: [],
-        settings: initialSiteSettings,
-      };
-      fs.writeFileSync(STORE_FILE, JSON.stringify(initialData, null, 2), "utf8");
-      return initialData;
-    }
-    const content = fs.readFileSync(STORE_FILE, "utf8");
-    return JSON.parse(content);
   } catch (err) {
-    console.error("Local store read error, falling back to initial data:", err);
-    return {
-      services: initialServices,
-      projects: initialProjects,
-      enquiries: [],
-      settings: initialSiteSettings,
-    };
+    console.warn("Could not read from tmp store:", err);
   }
+
+  // 2. Try reading from .data/store.json (local or bundled in repo)
+  try {
+    if (fs.existsSync(LOCAL_STORE_FILE)) {
+      const content = fs.readFileSync(LOCAL_STORE_FILE, "utf8");
+      memoryStore = JSON.parse(content);
+      return memoryStore!;
+    }
+  } catch (err) {
+    console.warn("Could not read local store file:", err);
+  }
+
+  memoryStore = defaultData;
+  return memoryStore;
 }
 
 function writeDataFile(data: LocalStoreData) {
+  memoryStore = data;
+
+  // Try writing to local .data/store.json first
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(LOCAL_DATA_DIR)) {
+      fs.mkdirSync(LOCAL_DATA_DIR, { recursive: true });
     }
-    fs.writeFileSync(STORE_FILE, JSON.stringify(data, null, 2), "utf8");
+    fs.writeFileSync(LOCAL_STORE_FILE, JSON.stringify(data, null, 2), "utf8");
+    return;
+  } catch {
+    // Expected on serverless (read-only file system); try /tmp
+  }
+
+  // Fallback to /tmp which is always writable on serverless / AWS Lambda / Vercel
+  try {
+    fs.writeFileSync(TMP_STORE_FILE, JSON.stringify(data, null, 2), "utf8");
   } catch (err) {
-    console.error("Failed to write store file:", err);
+    console.error("Failed to write to tmp store file:", err);
   }
 }
 
