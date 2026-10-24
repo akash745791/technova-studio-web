@@ -125,7 +125,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
       const messageBody = getPreFilledMessage(refId);
 
       if (formData.preferred_contact_method === "whatsapp") {
-        const waUrl = `https://wa.me/917457912227?text=${encodeURIComponent(messageBody)}`;
+        const waUrl = `https://wa.me/919214133787?text=${encodeURIComponent(messageBody)}`;
         window.open(waUrl, "_blank");
       } else if (formData.preferred_contact_method === "email") {
         const mailUrl = `mailto:technovastudio.in@gmail.com?subject=${encodeURIComponent(
@@ -133,7 +133,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
         )}&body=${encodeURIComponent(messageBody)}`;
         window.location.href = mailUrl;
       } else if (formData.preferred_contact_method === "phone") {
-        window.location.href = "tel:+917457912227";
+        window.location.href = "tel:+919214133787";
       }
     } catch {
       setErrorMessage("Network error occurred. Please check your connection or contact us via WhatsApp directly.");
@@ -183,7 +183,7 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
         <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3.5 max-w-xl mx-auto">
           {formData.preferred_contact_method === "whatsapp" && (
             <a
-              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              href={`https://wa.me/919214133787?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold text-xs font-archia tracking-wide hover:brightness-105 transition-all shadow-md"
@@ -207,18 +207,18 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
 
           {formData.preferred_contact_method === "phone" && (
             <a
-              href="tel:+917457912227"
+              href="tel:+919214133787"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#D4A373] text-[#041214] hover:bg-[#FDBB4F] font-semibold text-xs font-archia tracking-wide transition-all shadow-md"
             >
               <Phone className="w-4 h-4" />
-              <span>Call Studio Direct (+91 74579 12227)</span>
+              <span>Call Studio Direct (+91 92141 33787)</span>
             </a>
           )}
 
           {/* Alternative channel buttons */}
           {formData.preferred_contact_method !== "whatsapp" && (
             <a
-              href={`https://wa.me/917457912227?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
+              href={`https://wa.me/919214133787?text=${encodeURIComponent(getPreFilledMessage(submittedRef))}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25D366]/15 border border-[#25D366]/40 text-[#1F2421] font-semibold text-xs font-archia tracking-wide hover:bg-[#25D366]/25 transition-all"

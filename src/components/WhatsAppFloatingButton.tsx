@@ -12,11 +12,11 @@ export default function WhatsAppFloatingButton() {
   return (
     <div className="fixed bottom-6 right-6 z-40">
       <a
-        href="https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20engineering%20project."
+        href="https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20engineering%20project."
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center gap-3 bg-[#FAEDCD] border border-[#CCD5AE] hover:border-[#D4A373] p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
-        title="Direct WhatsApp with TECHNOVA STUDIO (+91 74579 12227)"
+        title="Direct WhatsApp with TECHNOVA STUDIO (+91 92141 33787)"
         aria-label="Direct WhatsApp Chat"
       >
         {/* Pulsing indicator in Terracotta */}

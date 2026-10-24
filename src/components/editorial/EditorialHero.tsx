@@ -166,17 +166,17 @@ export default function EditorialHero() {
                 <div>
                   <span className="text-[10px] font-mono uppercase text-[#5B6358] block">Direct Consultation:</span>
                   <a
-                    href="https://wa.me/917457912227"
+                    href="https://wa.me/919214133787"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs font-mono font-bold text-[#1F2421] hover:text-[#A06733] transition-colors"
                   >
-                    +91 74579 12227
+                    +91 92141 33787
                   </a>
                 </div>
 
                 <a
-                  href="https://wa.me/917457912227"
+                  href="https://wa.me/919214133787"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366] text-white text-xs font-archia font-semibold tracking-wide shadow-xs hover:brightness-105 transition-all"

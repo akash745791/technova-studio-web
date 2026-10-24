@@ -105,14 +105,14 @@ export default function Navbar() {
             </button>
 
             <a
-              href="https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20engineering%20project."
+              href="https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20engineering%20project."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-archia font-medium text-[#1F2421] hover:text-[#A06733] border border-[#CCD5AE] hover:border-[#D4A373] rounded-lg transition-colors bg-[#FAEDCD] shadow-xs"
-              title="Chat on WhatsApp: +91 74579 12227"
+              title="Chat on WhatsApp: +91 92141 33787"
             >
               <Phone className="w-3.5 h-3.5 text-[#D4A373]" />
-              <span>+91 74579 12227</span>
+              <span>+91 92141 33787</span>
             </a>
 
             <Link
@@ -205,13 +205,13 @@ export default function Navbar() {
             </Link>
 
             <a
-              href="https://wa.me/917457912227"
+              href="https://wa.me/919214133787"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#FAEDCD] border border-[#CCD5AE] text-[#1F2421] font-archia text-sm font-medium"
             >
               <MessageSquare className="w-4 h-4 text-[#D4A373]" />
-              <span>WhatsApp: +91 74579 12227</span>
+              <span>WhatsApp: +91 92141 33787</span>
             </a>
           </div>
         </div>

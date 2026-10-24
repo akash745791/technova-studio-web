@@ -5,9 +5,9 @@ export const initialSiteSettings: SiteSettings = {
   brand_name: "TECHNOVA STUDIO",
   tagline: "Your Ideas. Our Technology. Real Digital Experiences.",
   contact_email: "technovastudio.in@gmail.com",
-  phone_1: "+91 74579 12227",
+  phone_1: "+91 92141 33787",
   phone_2: "+91 63755 47551",
-  whatsapp_1: "+91 74579 12227",
+  whatsapp_1: "+91 92141 33787",
   whatsapp_2: "+91 63755 47551",
   instagram_url: "https://www.instagram.com/technova_studio.in/",
   hero_headline: "Your Ideas. Our Technology. Real Digital Experiences.",
@@ -241,6 +241,6 @@ export const generalFAQs: FAQItem[] = [
   },
   {
     q: "How can I contact the studio directly?",
-    a: "You can email us at technovastudio.in@gmail.com, reach us on WhatsApp at +91 74579 12227 or +91 63755 47551, or visit our Instagram profile @technova_studio.in."
+    a: "You can email us at technovastudio.in@gmail.com, reach us on WhatsApp at +91 92141 33787 or +91 63755 47551, or visit our Instagram profile @technova_studio.in."
   }
 ];

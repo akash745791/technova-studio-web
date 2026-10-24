@@ -133,7 +133,7 @@ export default function TrackEnquiryModal({ isOpen, onClose, initialRef = "" }: 
           <div className="mt-4 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-700 text-xs font-sans space-y-2">
             <p>{error}</p>
             <a
-              href={`https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20trying%20to%20track%20my%20enquiry%20reference%20ID%3A%20${encodeURIComponent(
+              href={`https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20trying%20to%20track%20my%20enquiry%20reference%20ID%3A%20${encodeURIComponent(
                 refId
               )}`}
               target="_blank"
@@ -141,7 +141,7 @@ export default function TrackEnquiryModal({ isOpen, onClose, initialRef = "" }: 
               className="inline-flex items-center gap-1.5 font-bold text-[#A06733] hover:underline"
             >
               <MessageSquare className="w-3.5 h-3.5" />
-              <span>Verify ID with Studio on WhatsApp (+91 74579 12227)</span>
+              <span>Verify ID with Studio on WhatsApp (+91 92141 33787)</span>
             </a>
           </div>
         )}
@@ -219,7 +219,7 @@ export default function TrackEnquiryModal({ isOpen, onClose, initialRef = "" }: 
             {/* Direct Connect Buttons */}
             <div className="flex flex-col sm:flex-row gap-2.5">
               <a
-                href={`https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20checking%20my%20enquiry%20%5B${result.reference_id}%5D%20regarding%20${encodeURIComponent(
+                href={`https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20checking%20my%20enquiry%20%5B${result.reference_id}%5D%20regarding%20${encodeURIComponent(
                   result.project_title
                 )}.`}
                 target="_blank"
@@ -231,7 +231,7 @@ export default function TrackEnquiryModal({ isOpen, onClose, initialRef = "" }: 
               </a>
 
               <a
-                href="tel:+917457912227"
+                href="tel:+919214133787"
                 className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#FAEDCD] border border-[#CCD5AE] text-[#1F2421] font-semibold text-xs font-archia tracking-wide hover:bg-[#E9EDC9] transition-all"
               >
                 <Phone className="w-4 h-4 text-[#D4A373]" />

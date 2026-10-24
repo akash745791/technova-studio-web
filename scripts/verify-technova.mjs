@@ -60,7 +60,7 @@ async function runTests() {
   await test("Brand details, WhatsApp & phone links rendered in HTML", async () => {
     const res = await fetch(`${BASE_URL}/`);
     const html = await res.text();
-    if (!html.includes("74579 12227") && !html.includes("7457912227")) {
+    if (!html.includes("92141 33787") && !html.includes("9214133787")) {
       throw new Error("Primary phone/WhatsApp not found in homepage HTML");
     }
     if (!html.includes("63755 47551") && !html.includes("6375547551")) {

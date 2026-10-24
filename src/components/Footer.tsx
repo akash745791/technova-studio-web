@@ -44,7 +44,7 @@ export default function Footer() {
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href="https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20project."
+                href="https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20project."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-white/5 border border-[#CCD5AE]/20 flex items-center justify-center text-[#E9EDC9] hover:text-[#25D366] hover:border-[#25D366]/40 transition-colors"
@@ -150,8 +150,8 @@ export default function Footer() {
               </div>
               <div>
                 <span className="text-[#8A9486] block text-[10px] uppercase">WhatsApp / Call 1:</span>
-                <a href="https://wa.me/917457912227" target="_blank" rel="noopener noreferrer" className="text-[#FEFAE0] hover:underline">
-                  +91 74579 12227
+                <a href="https://wa.me/919214133787" target="_blank" rel="noopener noreferrer" className="text-[#FEFAE0] hover:underline">
+                  +91 92141 33787
                 </a>
               </div>
               <div>

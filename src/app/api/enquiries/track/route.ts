@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: `No enquiry found for Reference ID "${cleanRef}". Please verify the ID or contact us directly on WhatsApp (+91 74579 12227).`,
+          error: `No enquiry found for Reference ID "${cleanRef}". Please verify the ID or contact us directly on WhatsApp (+91 92141 33787).`,
         },
         { status: 404 }
       );

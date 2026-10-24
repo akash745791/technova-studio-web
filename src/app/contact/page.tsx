@@ -63,15 +63,15 @@ export default function ContactPage() {
                   <span className="text-[10px] font-mono uppercase text-[#5B6358] block font-bold">WhatsApp Direct 1</span>
                   <div className="flex items-center gap-3">
                     <a
-                      href="https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20project."
+                      href="https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20would%20like%20to%20discuss%20a%20website%20or%20digital%20project."
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-base font-bold text-[#1F2421] hover:text-[#A06733] transition-colors font-mono"
                     >
-                      +91 74579 12227
+                      +91 92141 33787
                     </a>
                     <a
-                      href="tel:+917457912227"
+                      href="tel:+919214133787"
                       className="text-[11px] font-mono text-[#1F2421] hover:text-[#A06733] px-2 py-0.5 rounded-lg bg-[#E9EDC9] border border-[#CCD5AE] font-semibold"
                     >
                       Call

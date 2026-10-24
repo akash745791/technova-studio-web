@@ -150,12 +150,12 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               </Link>
 
               <a
-                href={`https://wa.me/917457912227?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20interested%20in%20your%20${encodeURIComponent(service.title)}%20service.`}
+                href={`https://wa.me/919214133787?text=Hello%20TECHNOVA%20STUDIO%2C%20I%20am%20interested%20in%20your%20${encodeURIComponent(service.title)}%20service.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-archia font-medium tracking-wide text-[#1F2421] bg-[#FEFAE0] border border-[#CCD5AE] hover:bg-[#E9EDC9] transition-all"
               >
-                <span>Discuss on WhatsApp (+91 74579 12227)</span>
+                <span>Discuss on WhatsApp (+91 92141 33787)</span>
               </a>
             </div>
           </div>

@@ -94,13 +94,13 @@ export default function EnquiryTrackerWidget() {
         <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-700 text-xs font-sans space-y-1.5">
           <p>{error}</p>
           <a
-            href="https://wa.me/917457912227"
+            href="https://wa.me/919214133787"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 font-bold text-[#A06733] hover:underline"
           >
             <MessageSquare className="w-3.5 h-3.5" />
-            <span>Ask Studio on WhatsApp (+91 74579 12227)</span>
+            <span>Ask Studio on WhatsApp (+91 92141 33787)</span>
           </a>
         </div>
       )}

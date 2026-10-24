@@ -17,7 +17,7 @@ TECHNOVA STUDIO is a modern digital technology studio specializing in:
 
 ### Official Studio Contact Channels
 - **Email:** `technovastudio.in@gmail.com`
-- **Phone / WhatsApp 1:** `+91 74579 12227` (`https://wa.me/917457912227`)
+- **Phone / WhatsApp 1:** `+91 92141 33787` (`https://wa.me/919214133787`)
 - **Phone / WhatsApp 2:** `+91 63755 47551` (`https://wa.me/916375547551`)
 - **Instagram:** `https://www.instagram.com/technova_studio.in/`
 
