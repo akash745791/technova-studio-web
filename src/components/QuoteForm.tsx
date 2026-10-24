@@ -19,20 +19,21 @@ interface QuoteFormProps {
 }
 
 const serviceOptions = [
-  { slug: "website-development", label: "Website Development" },
-  { slug: "frontend-development", label: "Frontend Development" },
-  { slug: "backend-apis", label: "Backend Development & APIs" },
-  { slug: "ai-solutions", label: "AI Solutions & Automation" },
-  { slug: "cybersecurity-development", label: "Cybersecurity-Focused Development" },
-  { slug: "maintenance-bug-fixing", label: "Website Maintenance & Bug Fixing" },
+  { slug: "website-development", label: "Website Development (Starting from ₹5,000)" },
+  { slug: "frontend-development", label: "Frontend Development (Starting from ₹5,000)" },
+  { slug: "backend-apis", label: "Backend Development & APIs (Starting from ₹8,000)" },
+  { slug: "ai-solutions", label: "AI Solutions & Automation (Starting from ₹10,000)" },
+  { slug: "cybersecurity-development", label: "Cybersecurity-Focused Development (Starting from ₹6,000)" },
+  { slug: "maintenance-bug-fixing", label: "Website Maintenance & Bug Fixing (Starting from ₹3,000)" },
   { slug: "other-custom-solution", label: "Custom Digital Solution / Consultation" },
 ];
 
 const budgetOptions = [
-  "Under ₹25,000 / $300",
-  "₹25,000 – ₹60,000 / $300 – $750",
-  "₹60,000 – ₹1,50,000 / $750 – $1,800",
-  "₹1,50,000+ / $1,800+",
+  "₹5,000 – ₹15,000 (Starter / Basic Website)",
+  "₹15,000 – ₹35,000 (Standard Business Website)",
+  "₹35,000 – ₹75,000 (Custom Web App / E-commerce)",
+  "₹75,000 – ₹1,50,000 (Full-Stack Platform / AI Solutions)",
+  "₹1,50,000+ (Enterprise Architecture / Scaled System)",
   "Flexible / To Be Discussed",
 ];
 
@@ -404,6 +405,9 @@ export default function QuoteForm({ initialServiceSlug }: QuoteFormProps) {
               </option>
             ))}
           </select>
+          <p className="text-[10px] font-mono text-[#A06733] mt-1.5 font-bold">
+            Websites starting from ₹5,000
+          </p>
         </div>
 
         <div>

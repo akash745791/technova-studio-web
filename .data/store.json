@@ -46,7 +46,7 @@
           "a": "Yes. We integrate an admin content panel so you can update text, services, and projects directly."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹5,000",
       "published": true,
       "display_order": 1,
       "icon_name": "Globe"
@@ -89,7 +89,7 @@
           "a": "Yes, we implement CSS variable-based theming with smooth transitions and system preference detection."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹5,000",
       "published": true,
       "display_order": 2,
       "icon_name": "Layout"
@@ -132,7 +132,7 @@
           "a": "We enforce Row Level Security, encrypt environment secrets, and perform validation strictly on the server."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹8,000",
       "published": true,
       "display_order": 3,
       "icon_name": "Server"
@@ -171,7 +171,7 @@
           "a": "Yes, we can add conversational widgets, document processors, or automated quote estimators to existing systems."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹10,000",
       "published": true,
       "display_order": 4,
       "icon_name": "Cpu"
@@ -214,7 +214,7 @@
           "a": "We configure routine dependency checks and provide maintenance retainers for continuous vulnerability remediation."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹6,000",
       "published": true,
       "display_order": 5,
       "icon_name": "ShieldCheck"
@@ -253,7 +253,7 @@
           "a": "Yes, we prioritize critical outages such as broken checkout or contact forms to minimize business downtime."
         }
       ],
-      "starting_price": "Request a Quote",
+      "starting_price": "Starting from ₹3,000",
       "published": true,
       "display_order": 6,
       "icon_name": "Wrench"
@@ -359,7 +359,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -380,7 +380,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -400,7 +400,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -420,7 +420,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -440,7 +440,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -460,7 +460,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -480,7 +480,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -500,7 +500,7 @@
       "service_slug": "website-development",
       "project_title": "Modern E-Commerce Portal",
       "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
-      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "budget_range": "₹60,000 – ₹1,50,000",
       "timeline": "Standard (3-4 weeks)",
       "preferred_contact_method": "whatsapp",
       "status": "contacted",
@@ -528,6 +528,6 @@
     "about_body": "Technology should make ideas possible, businesses stronger, and digital experiences easier to use. TECHNOVA STUDIO was created around this belief. We focus on building professional websites and practical digital solutions that help individuals, startups, and businesses establish and improve their online presence.",
     "seo_title": "TECHNOVA STUDIO — Web Development, AI Solutions & Security-Conscious Digital Engineering",
     "seo_description": "TECHNOVA STUDIO builds professional websites, responsive frontend interfaces, reliable backends, practical AI integrations, and security-conscious digital solutions.",
-    "updated_at": "2026-10-24T02:02:41.465Z"
+    "updated_at": "2026-10-24T09:28:22.815Z"
   }
 }

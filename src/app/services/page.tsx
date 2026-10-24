@@ -54,7 +54,7 @@ export default async function ServicesPage() {
               Project-Based Custom Quotations
             </h3>
             <p className="text-xs sm:text-sm text-[#5B6358] leading-relaxed font-sans">
-              We do not publish artificial fixed pricing because every business has distinct architectural needs, timeline constraints, and feature scopes. We review your exact specifications and provide an honest, itemized quotation.
+              Website development packages start from ₹5,000 for standard business and portfolio websites. For custom web applications, APIs, or AI integrations, we review your exact specifications and provide an honest, itemized quotation in Indian Rupees (INR / ₹).
             </p>
           </div>
 

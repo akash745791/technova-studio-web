@@ -16,7 +16,7 @@ export default function GetAQuotePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAEDCD] border border-[#CCD5AE] text-xs font-mono text-[#A06733] tracking-wider font-bold">
-            <span>PROJECT COMMISSION</span>
+            <span>PROJECT COMMISSION • WEBSITES FROM ₹5,000</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-display font-normal text-[#1F2421] leading-tight">
@@ -24,7 +24,7 @@ export default function GetAQuotePage() {
           </h1>
 
           <p className="text-base sm:text-lg text-[#5B6358] leading-relaxed font-sans">
-            Fill in your project details below. We&apos;ll analyze your specifications, verify feasibility, and respond with a structured timeline and estimate within 24 to 48 hours.
+            Website packages start from ₹5,000 for standard business and portfolio websites. Fill in your project details below to receive a transparent proposal and cost breakdown in INR (₹) within 24 to 48 hours.
           </p>
         </div>
       </section>

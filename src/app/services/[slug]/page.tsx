@@ -130,12 +130,14 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             </span>
 
             <div className="space-y-1">
-              <span className="text-xs text-[#5B6358] block">Commercial Model:</span>
-              <span className="text-xl font-display font-normal text-[#1F2421]">Custom Project Quotation</span>
+              <span className="text-xs text-[#5B6358] block">Commercial Pricing:</span>
+              <span className="text-xl font-display font-bold text-[#A06733]">
+                {service.starting_price || "Starting from ₹5,000"}
+              </span>
             </div>
 
             <p className="text-xs text-[#5B6358] leading-relaxed font-sans">
-              Every project is evaluated based on scope, timeline, and architectural requirements. No hidden charges.
+              All quotes are itemized in Indian Rupees (INR / ₹) based on your custom requirements with zero hidden charges.
             </p>
 
             <div className="space-y-3 pt-2">

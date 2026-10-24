@@ -23,7 +23,7 @@ export default function EditorialCTA() {
             </h2>
 
             <p className="text-sm sm:text-base text-[#E9EDC9]/90 leading-relaxed max-w-xl mx-auto font-sans">
-              Tell us what you want to create. We&apos;ll review your requirements and discuss practical engineering next steps.
+              Tell us what you want to create. Website packages start from ₹5,000 with transparent deliverables, clean architecture, and reliable timelines.
             </p>
 
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">

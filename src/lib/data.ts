@@ -38,7 +38,7 @@ export const initialServices: Service[] = [
       { q: "Will my website work smoothly on all mobile devices?", a: "Yes. Every website is engineered mobile-first and tested across iOS, Android, and diverse screen widths down to 320px." },
       { q: "Can I edit text and images after launch?", a: "Yes. We integrate an admin content panel so you can update text, services, and projects directly." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹5,000",
     published: true,
     display_order: 1,
     icon_name: "Globe"
@@ -60,7 +60,7 @@ export const initialServices: Service[] = [
       { q: "Can you build the frontend for our existing backend API?", a: "Yes. We specialize in connecting modern frontend interfaces to existing REST or GraphQL backends with typed contracts." },
       { q: "Do you support dark mode and custom themes?", a: "Yes, we implement CSS variable-based theming with smooth transitions and system preference detection." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹5,000",
     published: true,
     display_order: 2,
     icon_name: "Layout"
@@ -82,7 +82,7 @@ export const initialServices: Service[] = [
       { q: "Which database technologies do you recommend?", a: "We primarily work with PostgreSQL, Supabase, and Redis for serverless and relational workloads, tailoring choices to your needs." },
       { q: "How do you protect private customer data?", a: "We enforce Row Level Security, encrypt environment secrets, and perform validation strictly on the server." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹8,000",
     published: true,
     display_order: 3,
     icon_name: "Server"
@@ -103,7 +103,7 @@ export const initialServices: Service[] = [
       { q: "Do AI integrations require recurring monthly costs?", a: "Yes, third-party model providers (e.g. Google Gemini, OpenAI) charge for API tokens based on usage. We optimize prompts to minimize spend." },
       { q: "Can AI be integrated into our current website?", a: "Yes, we can add conversational widgets, document processors, or automated quote estimators to existing systems." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹10,000",
     published: true,
     display_order: 4,
     icon_name: "Cpu"
@@ -125,7 +125,7 @@ export const initialServices: Service[] = [
       { q: "Do you provide certified penetration testing?", a: "We offer security-conscious development, dependency reviews, and defensive configuration. For accredited pentests, we clearly define scope within our engineering boundaries." },
       { q: "How do you handle security updates?", a: "We configure routine dependency checks and provide maintenance retainers for continuous vulnerability remediation." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹6,000",
     published: true,
     display_order: 5,
     icon_name: "ShieldCheck"
@@ -146,7 +146,7 @@ export const initialServices: Service[] = [
       { q: "Can you fix a website built by someone else?", a: "Yes. We inspect the existing codebase, identify the root causes of issues, and provide an honest assessment before making changes." },
       { q: "Do you offer emergency bug fixing?", a: "Yes, we prioritize critical outages such as broken checkout or contact forms to minimize business downtime." }
     ],
-    starting_price: "Request a Quote",
+    starting_price: "Starting from ₹3,000",
     published: true,
     display_order: 6,
     icon_name: "Wrench"
@@ -216,6 +216,10 @@ export const initialProjects: Project[] = [
 
 export const generalFAQs: FAQItem[] = [
   {
+    q: "What is the minimum budget to get a website built?",
+    a: "At TECHNOVA STUDIO, our custom website development starts from ₹5,000 for responsive single-page and starter business sites (including mobile-first design, SEO fundamentals, and direct WhatsApp integration). All pricing is in Indian Rupees (INR / ₹) with zero hidden fees."
+  },
+  {
     q: "What types of clients does TECHNOVA STUDIO work with?",
     a: "We work with small and medium-sized businesses, local shops, startups, entrepreneurs, and personal brands seeking modern websites, custom frontend/backend development, practical AI automations, and website maintenance."
   },
@@ -225,7 +229,7 @@ export const generalFAQs: FAQItem[] = [
   },
   {
     q: "Do you provide fixed pricing or custom estimates?",
-    a: "Every project has distinct functional and technical requirements. We evaluate your scope and offer transparent, itemized estimates without hidden surprises."
+    a: "Website packages start from ₹5,000. Because every project has distinct architectural and feature requirements, we evaluate your exact scope and offer clear, itemized estimates in INR (₹) without surprise charges."
   },
   {
     q: "Can you assist with website deployment and domain setup?",
