@@ -15,13 +15,16 @@ import {
   ArrowRight,
   Clock,
   Sparkles,
+  Users,
+  UserCheck,
 } from "lucide-react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import EnquiriesManager from "@/components/admin/EnquiriesManager";
 import ServicesManager from "@/components/admin/ServicesManager";
 import ProjectsManager from "@/components/admin/ProjectsManager";
 import SettingsManager from "@/components/admin/SettingsManager";
-import { Enquiry, Service, Project, SiteSettings } from "@/lib/types";
+import TeamWorkManager from "@/components/admin/TeamWorkManager";
+import { Enquiry, Service, Project, SiteSettings, Employee, EmployeeTask } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 interface AdminDashboardClientProps {
@@ -29,6 +32,8 @@ interface AdminDashboardClientProps {
   initialServices: Service[];
   initialProjects: Project[];
   initialSettings: SiteSettings;
+  initialEmployees?: Employee[];
+  initialTasks?: EmployeeTask[];
 }
 
 export default function AdminDashboardClient({
@@ -36,15 +41,19 @@ export default function AdminDashboardClient({
   initialServices = [],
   initialProjects = [],
   initialSettings,
+  initialEmployees = [],
+  initialTasks = [],
 }: AdminDashboardClientProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "enquiries" | "services" | "projects" | "settings">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "enquiries" | "team" | "services" | "projects" | "settings">("overview");
   const [refreshing, setRefreshing] = useState(false);
 
   // Live state for enquiries and target reference
   const [enquiries, setEnquiries] = useState<Enquiry[]>(initialEnquiries);
   const [services, setServices] = useState<Service[]>(initialServices);
   const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
+  const [tasks, setTasks] = useState<EmployeeTask[]>(initialTasks);
   const [targetRef, setTargetRef] = useState<string>("");
   const [overviewSearchRef, setOverviewSearchRef] = useState("");
   const [lastSyncedTime, setLastSyncedTime] = useState<string>("Live");
@@ -54,12 +63,16 @@ export default function AdminDashboardClient({
   const fetchLatestData = useCallback(async (isManual = false) => {
     if (isManual) setRefreshing(true);
     try {
-      const res = await fetch("/api/enquiries?_t=" + Date.now());
-      if (res.ok) {
-        const json = await res.json();
+      const [enqRes, empRes, taskRes] = await Promise.all([
+        fetch("/api/enquiries?_t=" + Date.now()),
+        fetch("/api/admin/employees?_t=" + Date.now()),
+        fetch("/api/admin/tasks?_t=" + Date.now()),
+      ]);
+
+      if (enqRes.ok) {
+        const json = await enqRes.json();
         if (json.success && Array.isArray(json.data)) {
           setEnquiries((prev) => {
-            // Check for newly arrived enquiries to alert admin
             if (prev.length > 0 && json.data.length > prev.length) {
               const newest = json.data[0];
               if (newest && !prev.some((p) => p.id === newest.id)) {
@@ -68,11 +81,26 @@ export default function AdminDashboardClient({
             }
             return json.data;
           });
-          const now = new Date();
-          const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
-          setLastSyncedTime(timeStr);
         }
       }
+
+      if (empRes.ok) {
+        const empJson = await empRes.json();
+        if (empJson.success && Array.isArray(empJson.data)) {
+          setEmployees(empJson.data);
+        }
+      }
+
+      if (taskRes.ok) {
+        const taskJson = await taskRes.json();
+        if (taskJson.success && Array.isArray(taskJson.data)) {
+          setTasks(taskJson.data);
+        }
+      }
+
+      const now = new Date();
+      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+      setLastSyncedTime(timeStr);
     } catch (err) {
       console.warn("Live sync error:", err);
     } finally {
@@ -119,10 +147,12 @@ export default function AdminDashboardClient({
   const inProgressEnquiries = enquiries.filter((e) => e.status === "in_progress" || e.status === "reviewing").length;
   const publishedServices = services.filter((s) => s.published).length;
   const publishedProjects = projects.filter((p) => p.published).length;
+  const inProgressTasks = tasks.filter((t) => t.status === "in_progress").length;
 
   const tabs = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "enquiries", label: `Enquiries (${newEnquiries > 0 ? `${newEnquiries} new` : totalEnquiries})`, icon: Inbox },
+    { id: "team", label: `Team & Work Tracker (${inProgressTasks} active)`, icon: Users },
     { id: "services", label: `Services (${services.length})`, icon: Briefcase },
     { id: "projects", label: `Portfolio (${projects.length})`, icon: Layers },
     { id: "settings", label: "Studio Settings", icon: Settings },
@@ -322,6 +352,87 @@ export default function AdminDashboardClient({
                 </div>
               )}
             </div>
+
+            {/* LIVE TEAM WORKLOAD & ACTIVITY WIDGET ("Kaun kya kar raha hai") */}
+            <div className="bg-[#FAEDCD]/80 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-[#CCD5AE]/60 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono uppercase tracking-wider text-[#A06733] font-bold">
+                      // WORKFORCE TRACKER
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-[#E9EDC9] border border-[#CCD5AE] text-[10px] font-mono font-bold text-[#1F2421]">
+                      {inProgressTasks} In Progress
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-display font-normal text-[#1F2421]">
+                    Kaun Sa Employee Kya Kaam Kar Raha Hai
+                  </h3>
+                  <p className="text-xs text-[#5B6358] font-sans">
+                    Live overview of team members and their active client assignments.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("team")}
+                  className="px-4 py-2 rounded-xl bg-[#041214] hover:bg-[#D4A373] hover:text-[#1F2421] text-[#FEFAE0] text-xs font-archia font-semibold tracking-wide flex items-center gap-1.5 transition-all shadow-xs"
+                >
+                  <Users className="w-3.5 h-3.5" />
+                  <span>Open Team & Tasks Board</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                {employees.map((emp) => {
+                  const empTasks = tasks.filter((t) => t.employee_id === emp.id);
+                  const activeTask = empTasks.find((t) => t.status === "in_progress") || empTasks[0];
+
+                  return (
+                    <div
+                      key={emp.id}
+                      onClick={() => setActiveTab("team")}
+                      className="p-4 rounded-2xl bg-[#FEFAE0] border border-[#CCD5AE] hover:border-[#D4A373] cursor-pointer transition-all space-y-3 shadow-xs hover:shadow-md"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-xl bg-[#041214] text-[#FEFAE0] flex items-center justify-center font-display text-xs font-bold">
+                            {emp.name.slice(0, 2).toUpperCase()}
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold text-[#1F2421] block leading-tight">{emp.name}</span>
+                            <span className="text-[10px] text-[#A06733] font-mono block">{emp.role}</span>
+                          </div>
+                        </div>
+                        <span
+                          className={`w-2.5 h-2.5 rounded-full ${
+                            emp.status === "active" ? "bg-emerald-500" : emp.status === "busy" ? "bg-amber-500" : "bg-stone-400"
+                          }`}
+                          title={`Status: ${emp.status}`}
+                        />
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-[#FAEDCD] border border-[#CCD5AE]/60 space-y-1">
+                        <span className="text-[9px] font-mono uppercase text-[#A06733] font-bold block">
+                          Abhi Ka Kaam:
+                        </span>
+                        {activeTask ? (
+                          <>
+                            <p className="text-xs font-semibold text-[#1F2421] line-clamp-1">
+                              {activeTask.title}
+                            </p>
+                            <span className="text-[10px] font-mono text-[#5B6358] block truncate">
+                              {activeTask.client_or_project}
+                            </span>
+                          </>
+                        ) : (
+                          <p className="text-[11px] text-[#8A9486] italic">No active task</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
@@ -329,23 +440,34 @@ export default function AdminDashboardClient({
         {activeTab === "enquiries" && (
           <EnquiriesManager
             enquiries={enquiries}
+            employees={employees}
             onUpdate={() => fetchLatestData(true)}
             targetRef={targetRef}
             onClearTargetRef={() => setTargetRef("")}
           />
         )}
 
-        {/* TAB 3: SERVICES */}
+        {/* TAB 3: TEAM & WORK TRACKER */}
+        {activeTab === "team" && (
+          <TeamWorkManager
+            employees={employees}
+            tasks={tasks}
+            enquiries={enquiries}
+            onUpdate={() => fetchLatestData(true)}
+          />
+        )}
+
+        {/* TAB 4: SERVICES */}
         {activeTab === "services" && (
           <ServicesManager services={services} onUpdate={() => fetchLatestData(true)} />
         )}
 
-        {/* TAB 4: PORTFOLIO */}
+        {/* TAB 5: PORTFOLIO */}
         {activeTab === "projects" && (
           <ProjectsManager projects={projects} onUpdate={() => fetchLatestData(true)} />
         )}
 
-        {/* TAB 5: SITE SETTINGS */}
+        {/* TAB 6: SITE SETTINGS */}
         {activeTab === "settings" && (
           <SettingsManager settings={initialSettings} onUpdate={() => fetchLatestData(true)} />
         )}

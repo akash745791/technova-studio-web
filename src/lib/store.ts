@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
-import { Service, Project, Enquiry, SiteSettings } from "./types";
-import { initialServices, initialProjects, initialSiteSettings } from "./data";
+import { Service, Project, Enquiry, SiteSettings, Employee, EmployeeTask } from "./types";
+import { initialServices, initialProjects, initialSiteSettings, initialEmployees, initialEmployeeTasks } from "./data";
 import { isSupabaseConfigured, supabaseServer } from "./supabase";
 
 const LOCAL_DATA_DIR = path.join(process.cwd(), ".data");
@@ -14,19 +14,27 @@ interface LocalStoreData {
   projects: Project[];
   enquiries: Enquiry[];
   settings: SiteSettings;
+  employees: Employee[];
+  tasks: EmployeeTask[];
 }
 
 // Global in-memory cache to ensure serverless hot-reloads retain state without read-only disk errors
 let memoryStore: LocalStoreData | null = null;
 
 function ensureDataFile(): LocalStoreData {
-  if (memoryStore) return memoryStore;
+  if (memoryStore) {
+    if (!memoryStore.employees) memoryStore.employees = initialEmployees;
+    if (!memoryStore.tasks) memoryStore.tasks = initialEmployeeTasks;
+    return memoryStore;
+  }
 
   const defaultData: LocalStoreData = {
     services: initialServices,
     projects: initialProjects,
     enquiries: [],
     settings: initialSiteSettings,
+    employees: initialEmployees,
+    tasks: initialEmployeeTasks,
   };
 
   // 1. Try reading from /tmp if updated in this serverless runtime
@@ -34,6 +42,8 @@ function ensureDataFile(): LocalStoreData {
     if (fs.existsSync(TMP_STORE_FILE)) {
       const content = fs.readFileSync(TMP_STORE_FILE, "utf8");
       memoryStore = JSON.parse(content);
+      if (!memoryStore!.employees) memoryStore!.employees = initialEmployees;
+      if (!memoryStore!.tasks) memoryStore!.tasks = initialEmployeeTasks;
       return memoryStore!;
     }
   } catch (err) {
@@ -45,6 +55,8 @@ function ensureDataFile(): LocalStoreData {
     if (fs.existsSync(LOCAL_STORE_FILE)) {
       const content = fs.readFileSync(LOCAL_STORE_FILE, "utf8");
       memoryStore = JSON.parse(content);
+      if (!memoryStore!.employees) memoryStore!.employees = initialEmployees;
+      if (!memoryStore!.tasks) memoryStore!.tasks = initialEmployeeTasks;
       return memoryStore!;
     }
   } catch (err) {
@@ -330,4 +342,124 @@ export async function updateSiteSettings(settingsUpdate: Partial<SiteSettings>):
   writeDataFile(store);
 
   return updated;
+}
+
+// ==========================================
+// EMPLOYEES & WORK ALLOCATION REPOSITORY
+// ==========================================
+export async function getEmployees(): Promise<Employee[]> {
+  const store = ensureDataFile();
+  return store.employees || initialEmployees;
+}
+
+export async function getEmployeeById(id: string): Promise<Employee | null> {
+  const store = ensureDataFile();
+  return (store.employees || []).find((e) => e.id === id) || null;
+}
+
+export async function saveEmployee(empData: Partial<Employee> & { id?: string }): Promise<Employee> {
+  const store = ensureDataFile();
+  if (!store.employees) store.employees = [...initialEmployees];
+
+  const existingIdx = store.employees.findIndex((e) => e.id === empData.id);
+  const employee: Employee = {
+    id: empData.id || `emp-${Date.now()}`,
+    name: empData.name || "New Team Member",
+    role: empData.role || "Developer",
+    email: empData.email || "",
+    phone: empData.phone || "",
+    status: empData.status || "active",
+    avatar_color: empData.avatar_color || "from-amber-600 to-orange-500",
+    current_project: empData.current_project || "",
+    joined_date: empData.joined_date || new Date().toISOString().split("T")[0],
+  };
+
+  if (existingIdx >= 0) {
+    store.employees[existingIdx] = employee;
+  } else {
+    store.employees.push(employee);
+  }
+
+  writeDataFile(store);
+  return employee;
+}
+
+export async function deleteEmployee(id: string): Promise<boolean> {
+  const store = ensureDataFile();
+  if (!store.employees) return true;
+  store.employees = store.employees.filter((e) => e.id !== id);
+  // Also unassign or keep tasks for archive
+  writeDataFile(store);
+  return true;
+}
+
+// ==========================================
+// EMPLOYEE TASKS REPOSITORY
+// ==========================================
+export async function getEmployeeTasks(): Promise<EmployeeTask[]> {
+  const store = ensureDataFile();
+  return (store.tasks || initialEmployeeTasks).sort(
+    (a, b) => new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime()
+  );
+}
+
+export async function getEmployeeTaskById(id: string): Promise<EmployeeTask | null> {
+  const store = ensureDataFile();
+  return (store.tasks || []).find((t) => t.id === id) || null;
+}
+
+export async function saveEmployeeTask(taskData: Partial<EmployeeTask> & { id?: string }): Promise<EmployeeTask> {
+  const store = ensureDataFile();
+  if (!store.tasks) store.tasks = [...initialEmployeeTasks];
+
+  const existingIdx = store.tasks.findIndex((t) => t.id === taskData.id);
+  const now = new Date().toISOString();
+
+  // Find employee name if employee_id is provided
+  let empName = taskData.employee_name;
+  if (!empName && taskData.employee_id) {
+    const emp = (store.employees || []).find((e) => e.id === taskData.employee_id);
+    if (emp) empName = emp.name;
+  }
+
+  const task: EmployeeTask = {
+    id: taskData.id || `task-${Date.now()}`,
+    title: taskData.title || "Untitled Task",
+    description: taskData.description || "",
+    employee_id: taskData.employee_id || "emp-1",
+    employee_name: empName || "Team Member",
+    related_enquiry_ref: taskData.related_enquiry_ref || "",
+    client_or_project: taskData.client_or_project || "TECHNOVA Project",
+    priority: taskData.priority || "medium",
+    status: taskData.status || "in_progress",
+    due_date: taskData.due_date || "",
+    created_at: taskData.created_at || now,
+    updated_at: now,
+    notes: taskData.notes || "",
+  };
+
+  if (existingIdx >= 0) {
+    store.tasks[existingIdx] = task;
+  } else {
+    store.tasks.unshift(task);
+  }
+
+  // Also update employee's current_project if this is active
+  if (task.status === "in_progress" && store.employees) {
+    const empIdx = store.employees.findIndex((e) => e.id === task.employee_id);
+    if (empIdx >= 0) {
+      store.employees[empIdx].current_project = `${task.client_or_project}: ${task.title}`;
+    }
+  }
+
+  writeDataFile(store);
+  return task;
+}
+
+export async function deleteEmployeeTask(id: string): Promise<boolean> {
+  const store = ensureDataFile();
+  if (!store.tasks) return true;
+  store.tasks = store.tasks.filter((t) => t.id !== id);
+  writeDataFile(store);
+  return true;
 }

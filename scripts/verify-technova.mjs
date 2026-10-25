@@ -264,6 +264,56 @@ async function runTests() {
     }
   });
 
+  // 12. TEAM & WORK ALLOCATION (KON SA EMPLOYEE KYA KAR RAHA HAI)
+  await test("Admin can list employees and verify active workforce assignments", async () => {
+    const res = await fetch(`${BASE_URL}/api/admin/employees`, {
+      headers: { Cookie: authCookie },
+    });
+
+    if (res.status !== 200) {
+      throw new Error(`Expected HTTP 200, got ${res.status}`);
+    }
+
+    const json = await res.json();
+    if (!Array.isArray(json.data) || json.data.length === 0) {
+      throw new Error("Employees list is empty or invalid format");
+    }
+  });
+
+  await test("Admin can create a work task and assign to an employee", async () => {
+    const res = await fetch(`${BASE_URL}/api/admin/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: authCookie,
+      },
+      body: JSON.stringify({
+        title: "Test Task Verification",
+        description: "Checking task assignment to employee in admin",
+        employee_id: "emp-1",
+        employee_name: "Akash Rai",
+        client_or_project: "Test Verification Suite",
+        priority: "medium",
+        status: "in_progress",
+      }),
+    });
+
+    if (res.status !== 200) {
+      throw new Error(`Expected HTTP 200, got ${res.status}`);
+    }
+
+    const json = await res.json();
+    if (!json.success || !json.data.id) {
+      throw new Error("Task was not created successfully");
+    }
+
+    // Clean up created test task
+    await fetch(`${BASE_URL}/api/admin/tasks/${json.data.id}`, {
+      method: "DELETE",
+      headers: { Cookie: authCookie },
+    });
+  });
+
   console.log("\n=================================================");
   console.log(`TEST RESULTS: ${passed} PASSED, ${failed} FAILED`);
   console.log("=================================================");

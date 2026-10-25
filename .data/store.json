@@ -351,6 +351,27 @@
   ],
   "enquiries": [
     {
+      "reference_id": "TNS-2026-DTSXI",
+      "client_name": "Aakash Verma",
+      "email": "aakash.test@example.com",
+      "phone": "+91 98765 43210",
+      "business_name": "Verma Enterprises",
+      "service_slug": "website-development",
+      "project_title": "Modern E-Commerce Portal",
+      "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
+      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "timeline": "Standard (3-4 weeks)",
+      "preferred_contact_method": "whatsapp",
+      "status": "contacted",
+      "privacy_consent": true,
+      "notification_status": "skipped",
+      "created_at": "2026-10-25T17:17:23.539Z",
+      "id": "enq-1792948643539-t87j",
+      "notification_error": "Resend API key not configured in environment variables",
+      "internal_notes": "Followed up on WhatsApp. Shared preliminary architecture overview.",
+      "updated_at": "2026-10-25T17:17:23.621Z"
+    },
+    {
       "reference_id": "TNS-2026-9VUVX",
       "client_name": "Aakash Verma",
       "email": "aakash.test@example.com",
@@ -549,6 +570,113 @@
     "about_body": "Technology should make ideas possible, businesses stronger, and digital experiences easier to use. TECHNOVA STUDIO was created around this belief. We focus on building professional websites and practical digital solutions that help individuals, startups, and businesses establish and improve their online presence.",
     "seo_title": "TECHNOVA STUDIO — Web Development, AI Solutions & Security-Conscious Digital Engineering",
     "seo_description": "TECHNOVA STUDIO builds professional websites, responsive frontend interfaces, reliable backends, practical AI integrations, and security-conscious digital solutions.",
-    "updated_at": "2026-10-25T16:27:17.958Z"
-  }
+    "updated_at": "2026-10-25T17:17:23.637Z"
+  },
+  "employees": [
+    {
+      "id": "emp-1",
+      "name": "Akash Rai",
+      "role": "Lead Full-Stack & System Architect",
+      "email": "akash@technovastudio.in",
+      "phone": "+91 92141 33787",
+      "status": "active",
+      "avatar_color": "from-amber-600 to-orange-500",
+      "current_project": "Test Verification Suite: Test Task Verification",
+      "joined_date": "2024-01-15"
+    },
+    {
+      "id": "emp-2",
+      "name": "Vikram Sharma",
+      "role": "Senior UI/UX & Frontend Engineer",
+      "email": "vikram@technovastudio.in",
+      "phone": "+91 63755 47551",
+      "status": "busy",
+      "avatar_color": "from-emerald-600 to-teal-500",
+      "current_project": "Client Project: Verma Enterprises Portal",
+      "joined_date": "2024-03-01"
+    },
+    {
+      "id": "emp-3",
+      "name": "Priya Patel",
+      "role": "Backend & Database Specialist",
+      "email": "priya@technovastudio.in",
+      "phone": "+91 98765 01234",
+      "status": "active",
+      "avatar_color": "from-blue-600 to-indigo-500",
+      "current_project": "PostgreSQL RLS & API Automation",
+      "joined_date": "2024-06-10"
+    },
+    {
+      "id": "emp-4",
+      "name": "Rahul Verma",
+      "role": "Frontend Developer & SEO Specialist",
+      "email": "rahul@technovastudio.in",
+      "phone": "+91 98234 56789",
+      "status": "active",
+      "avatar_color": "from-purple-600 to-pink-500",
+      "current_project": "Core Web Vitals & Mobile Optimization",
+      "joined_date": "2024-08-20"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-101",
+      "title": "Setup Next.js 15 Production Architecture & Security Headers",
+      "description": "Configure strict CSP, defensive headers, and automated build optimization pipeline.",
+      "employee_id": "emp-1",
+      "employee_name": "Akash Rai",
+      "related_enquiry_ref": "TNS-2026-XDFWL",
+      "client_or_project": "TECHNOVA Core Platform",
+      "priority": "high",
+      "status": "in_progress",
+      "due_date": "2026-10-30",
+      "created_at": "2026-10-24T10:00:00.000Z",
+      "updated_at": "2026-10-25T14:30:00.000Z",
+      "notes": "Security headers and CSP verified. Working on automated lighthouse score audit."
+    },
+    {
+      "id": "task-102",
+      "title": "Design Responsive Product Catalog & Checkout Wireframes",
+      "description": "Create mobile-first interface for Verma Enterprises e-commerce catalog.",
+      "employee_id": "emp-2",
+      "employee_name": "Vikram Sharma",
+      "related_enquiry_ref": "TNS-2026-I37R2",
+      "client_or_project": "Verma Enterprises Portal",
+      "priority": "urgent",
+      "status": "in_progress",
+      "due_date": "2026-10-28",
+      "created_at": "2026-10-24T12:00:00.000Z",
+      "updated_at": "2026-10-25T11:00:00.000Z",
+      "notes": "Figma wireframes ready for client review. Working on mobile card interactions."
+    },
+    {
+      "id": "task-103",
+      "title": "Implement Supabase Auth & Row Level Security Policies",
+      "description": "Write row level security policies for user profile isolation and enquiry tracking.",
+      "employee_id": "emp-3",
+      "employee_name": "Priya Patel",
+      "related_enquiry_ref": "TNS-2026-9VUVX",
+      "client_or_project": "Apex Commerce Database",
+      "priority": "high",
+      "status": "in_review",
+      "due_date": "2026-10-29",
+      "created_at": "2026-10-23T15:00:00.000Z",
+      "updated_at": "2026-10-25T09:15:00.000Z",
+      "notes": "SQL migrations tested in staging. Awaiting lead review before production push."
+    },
+    {
+      "id": "task-104",
+      "title": "Mobile Responsiveness & Sub-Second LCP Audit",
+      "description": "Run mobile lighthouse performance passes and optimize image assets.",
+      "employee_id": "emp-4",
+      "employee_name": "Rahul Verma",
+      "client_or_project": "Nexus AI Showcase",
+      "priority": "medium",
+      "status": "pending",
+      "due_date": "2026-11-02",
+      "created_at": "2026-10-25T08:00:00.000Z",
+      "updated_at": "2026-10-25T08:00:00.000Z",
+      "notes": "Scheduled to start once Vikram's frontend components are integrated."
+    }
+  ]
 }

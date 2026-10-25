@@ -31,6 +31,8 @@ export async function PATCH(
   const updated = await updateEnquiry(id, {
     status: body.status,
     internal_notes: body.internal_notes,
+    assigned_to: body.assigned_to,
+    assigned_employee_name: body.assigned_employee_name,
   });
 
   if (!updated) {

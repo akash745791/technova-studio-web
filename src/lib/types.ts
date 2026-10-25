@@ -64,11 +64,46 @@ export interface Enquiry {
   preferred_contact_method: PreferredContactMethod;
   status: EnquiryStatus;
   internal_notes?: string;
+  assigned_to?: string; // Employee ID
+  assigned_employee_name?: string; // Employee Name
   privacy_consent: boolean;
   notification_status: NotificationStatus;
   notification_error?: string;
   created_at: string;
   updated_at?: string;
+}
+
+export type EmployeeStatus = 'active' | 'busy' | 'away' | 'offline';
+
+export interface Employee {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  status: EmployeeStatus;
+  avatar_color?: string;
+  current_project?: string;
+  joined_date: string;
+}
+
+export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
+export type TaskStatus = 'pending' | 'in_progress' | 'in_review' | 'completed';
+
+export interface EmployeeTask {
+  id: string;
+  title: string;
+  description: string;
+  employee_id: string;
+  employee_name: string;
+  related_enquiry_ref?: string;
+  client_or_project: string;
+  priority: TaskPriority;
+  status: TaskStatus;
+  due_date?: string;
+  created_at: string;
+  updated_at: string;
+  notes?: string;
 }
 
 export interface SiteSettings {

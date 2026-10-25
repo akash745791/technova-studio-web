@@ -9,11 +9,12 @@ import {
   X,
   ExternalLink,
 } from "lucide-react";
-import { Enquiry, EnquiryStatus } from "@/lib/types";
+import { Enquiry, EnquiryStatus, Employee } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 interface EnquiriesManagerProps {
   enquiries: Enquiry[];
+  employees?: Employee[];
   onUpdate: () => void;
   targetRef?: string;
   onClearTargetRef?: () => void;
@@ -30,6 +31,7 @@ const statusColors: Record<EnquiryStatus, { bg: string; text: string; border: st
 
 export default function EnquiriesManager({
   enquiries,
+  employees = [],
   onUpdate,
   targetRef,
   onClearTargetRef,
@@ -39,6 +41,7 @@ export default function EnquiriesManager({
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<EnquiryStatus>("new");
+  const [assignedTo, setAssignedTo] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [retryingEmail, setRetryingEmail] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
@@ -76,6 +79,7 @@ export default function EnquiriesManager({
     setSelectedEnquiry(enq);
     setNotes(enq.internal_notes || "");
     setStatus(enq.status);
+    setAssignedTo(enq.assigned_to || "");
     setActionMessage(null);
   };
 
@@ -89,11 +93,18 @@ export default function EnquiriesManager({
     setSaving(true);
     setActionMessage(null);
 
+    const emp = employees.find((e) => e.id === assignedTo);
+
     try {
       const res = await fetch(`/api/admin/enquiries/${selectedEnquiry.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, internal_notes: notes }),
+        body: JSON.stringify({
+          status,
+          internal_notes: notes,
+          assigned_to: assignedTo,
+          assigned_employee_name: emp ? emp.name : "",
+        }),
       });
 
       if (res.ok) {
@@ -277,6 +288,17 @@ export default function EnquiriesManager({
                         >
                           {enq.status}
                         </span>
+                        <div className="mt-1">
+                          {enq.assigned_employee_name ? (
+                            <span className="text-[10px] font-mono font-bold text-[#1F2421] bg-[#E9EDC9] px-2 py-0.5 rounded border border-[#CCD5AE] inline-flex items-center gap-1">
+                              <span>👤 {enq.assigned_employee_name}</span>
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-mono text-[#8A9486] italic">
+                              Unassigned
+                            </span>
+                          )}
+                        </div>
                       </td>
 
                       <td className="py-4 px-4 sm:px-6 text-right">
@@ -390,8 +412,8 @@ export default function EnquiriesManager({
               </div>
             </div>
 
-            {/* Status & Notification Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Status, Employee Assignment & Notification Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-mono uppercase text-[#5B6358] mb-1.5 font-bold">
                   Update Enquiry Status:
@@ -407,6 +429,24 @@ export default function EnquiriesManager({
                   <option value="in_progress">In Progress</option>
                   <option value="completed">Completed</option>
                   <option value="closed">Closed</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono uppercase text-[#5B6358] mb-1.5 font-bold">
+                  Assign Kaam To Employee:
+                </label>
+                <select
+                  value={assignedTo}
+                  onChange={(e) => setAssignedTo(e.target.value)}
+                  className="w-full px-3 py-2 bg-[#FEFAE0] border border-[#CCD5AE] rounded-xl text-xs text-[#1F2421] focus:outline-none focus:ring-2 focus:ring-[#D4A373] font-mono font-semibold"
+                >
+                  <option value="">-- Unassigned --</option>
+                  {employees.map((emp) => (
+                    <option key={emp.id} value={emp.id}>
+                      {emp.name} ({emp.role})
+                    </option>
+                  ))}
                 </select>
               </div>
 
