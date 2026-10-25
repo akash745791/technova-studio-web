@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowRight, Check, Calculator, Clock } from "lucide-react";
 
 interface FeatureModule {
@@ -76,13 +77,15 @@ export default function ScopeEstimator() {
         {modules.map((mod) => {
           const isSelected = selected.includes(mod.id);
           return (
-            <button
+            <motion.button
               key={mod.id}
               type="button"
               onClick={() => toggle(mod.id)}
+              whileHover={{ y: -3, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
               className={`p-4 rounded-xl text-left border transition-all flex items-start justify-between gap-3 ${
                 isSelected
-                  ? "bg-[#FEFAE0] border-[#D4A373] shadow-xs"
+                  ? "bg-[#FEFAE0] border-[#D4A373] shadow-md ring-1 ring-[#D4A373]/30"
                   : "bg-[#FAEDCD] border-[#CCD5AE]/80 hover:border-[#CCD5AE] text-[#5B6358]"
               }`}
             >
@@ -104,7 +107,7 @@ export default function ScopeEstimator() {
               >
                 {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
               </div>
-            </button>
+            </motion.button>
           );
         })}
       </div>
@@ -115,13 +118,15 @@ export default function ScopeEstimator() {
           * Engineering timelines adjust dynamically based on API complexity, third-party approvals, and design readiness.
         </span>
 
-        <Link
-          href={`/get-a-quote?scope=${selected.join(",")}`}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#041214] hover:bg-[#D4A373] hover:text-[#1F2421] text-[#FEFAE0] font-archia text-sm font-semibold tracking-wide transition-all shadow-xs flex-shrink-0"
-        >
-          <span>Submit This Specification</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Link
+            href={`/get-a-quote?scope=${selected.join(",")}`}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#041214] hover:bg-[#D4A373] hover:text-[#1F2421] text-[#FEFAE0] font-archia text-sm font-semibold tracking-wide transition-all shadow-xs flex-shrink-0"
+          >
+            <span>Submit This Specification</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </motion.div>
       </div>
     </div>
   );

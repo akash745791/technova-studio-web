@@ -65,8 +65,9 @@ export default function EditorialProcess() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-[#FAEDCD]/60 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl p-7 sm:p-8 space-y-4 hover:border-[#D4A373] transition-colors shadow-xs"
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-[#FAEDCD]/60 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl p-7 sm:p-8 space-y-4 hover:border-[#D4A373] hover:shadow-lg transition-all duration-300 shadow-xs cursor-default"
             >
               <div className="flex items-center justify-between pb-4 border-b border-[#CCD5AE]">
                 <span className="font-display text-4xl sm:text-5xl font-normal text-[#D4A373]">

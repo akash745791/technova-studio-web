@@ -112,13 +112,15 @@ export default function EditorialServices({ services }: EditorialServicesProps) 
               const isActive = service.id === activeService?.id;
               const ServiceIcon = iconMap[service.icon_name] || Code2;
               return (
-                <div
+                <motion.div
                   key={service.id}
                   onClick={() => setActiveServiceId(service.id)}
                   onMouseEnter={() => setActiveServiceId(service.id)}
-                  className={`p-6 sm:p-7 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                  whileHover={{ x: 6 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className={`p-6 sm:p-7 rounded-2xl border transition-colors duration-200 cursor-pointer ${
                     isActive
-                      ? "bg-[#FEFAE0] border-[#D4A373] shadow-xs"
+                      ? "bg-[#FEFAE0] border-[#D4A373] shadow-md ring-1 ring-[#D4A373]/30"
                       : "bg-[#FAEDCD]/40 border-[#CCD5AE]/70 hover:border-[#CCD5AE] hover:bg-[#FAEDCD]/80"
                   }`}
                 >
@@ -157,7 +159,7 @@ export default function EditorialServices({ services }: EditorialServicesProps) 
                       </Link>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

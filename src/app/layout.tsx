@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StudioBar from "@/components/StudioBar";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://technovastudio.in";
 
@@ -91,6 +92,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+        <ScrollProgress />
         <StudioBar />
         <Navbar />
         <main id="main-content" className="flex-grow">

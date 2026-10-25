@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FAQItem } from "@/lib/types";
 
 interface FAQAccordionProps {
@@ -26,9 +27,9 @@ export default function FAQAccordion({ items, defaultOpenIndex = 0 }: FAQAccordi
         return (
           <div
             key={idx}
-            className={`border rounded-2xl transition-all duration-200 overflow-hidden ${
+            className={`border rounded-2xl transition-colors duration-200 overflow-hidden ${
               isOpen
-                ? "bg-[#FEFAE0] border-[#D4A373] shadow-xs"
+                ? "bg-[#FEFAE0] border-[#D4A373] shadow-md ring-1 ring-[#D4A373]/30"
                 : "bg-[#FAEDCD]/60 border-[#CCD5AE] hover:border-[#CCD5AE]/90"
             }`}
           >
@@ -51,16 +52,27 @@ export default function FAQAccordion({ items, defaultOpenIndex = 0 }: FAQAccordi
               />
             </button>
 
-            {isOpen && (
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={headingId}
-                className="px-6 pb-6 pt-1 text-xs sm:text-sm text-[#5B6358] leading-relaxed border-t border-[#CCD5AE]/60 font-sans"
-              >
-                {item.a}
-              </div>
-            )}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  key="content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={headingId}
+                    className="px-6 pb-6 pt-2 text-xs sm:text-sm text-[#5B6358] leading-relaxed border-t border-[#CCD5AE]/60 font-sans"
+                  >
+                    {item.a}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

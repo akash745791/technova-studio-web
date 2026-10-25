@@ -351,6 +351,27 @@
   ],
   "enquiries": [
     {
+      "reference_id": "TNS-2026-9VUVX",
+      "client_name": "Aakash Verma",
+      "email": "aakash.test@example.com",
+      "phone": "+91 98765 43210",
+      "business_name": "Verma Enterprises",
+      "service_slug": "website-development",
+      "project_title": "Modern E-Commerce Portal",
+      "project_description": "We require a complete Next.js website with high-performance product browsing and mobile responsiveness.",
+      "budget_range": "₹60,000 – ₹1,50,000 / $750 – $1,800",
+      "timeline": "Standard (3-4 weeks)",
+      "preferred_contact_method": "whatsapp",
+      "status": "contacted",
+      "privacy_consent": true,
+      "notification_status": "skipped",
+      "created_at": "2026-10-25T16:27:17.831Z",
+      "id": "enq-1792945637831-hpuc",
+      "notification_error": "Resend API key not configured in environment variables",
+      "internal_notes": "Followed up on WhatsApp. Shared preliminary architecture overview.",
+      "updated_at": "2026-10-25T16:27:17.938Z"
+    },
+    {
       "reference_id": "TNS-2026-M0Y2L",
       "client_name": "Aakash Verma",
       "email": "aakash.test@example.com",
@@ -528,6 +549,6 @@
     "about_body": "Technology should make ideas possible, businesses stronger, and digital experiences easier to use. TECHNOVA STUDIO was created around this belief. We focus on building professional websites and practical digital solutions that help individuals, startups, and businesses establish and improve their online presence.",
     "seo_title": "TECHNOVA STUDIO — Web Development, AI Solutions & Security-Conscious Digital Engineering",
     "seo_description": "TECHNOVA STUDIO builds professional websites, responsive frontend interfaces, reliable backends, practical AI integrations, and security-conscious digital solutions.",
-    "updated_at": "2026-10-24T10:01:58.683Z"
+    "updated_at": "2026-10-25T16:27:17.958Z"
   }
 }

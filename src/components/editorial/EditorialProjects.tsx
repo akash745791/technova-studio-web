@@ -45,8 +45,9 @@ export default function EditorialProjects({ projects }: EditorialProjectsProps) 
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#FAEDCD]/70 backdrop-blur-sm border border-[#CCD5AE] rounded-3xl overflow-hidden shadow-xs hover:border-[#D4A373] transition-all duration-300"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="group bg-[#FAEDCD]/70 backdrop-blur-sm border border-[#CCD5AE] hover:border-[#D4A373] rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300"
               >
                 <div className={`grid grid-cols-1 lg:grid-cols-12 items-center ${isEven ? "" : "lg:grid-flow-dense"}`}>
                   {/* Image Column */}
@@ -56,7 +57,7 @@ export default function EditorialProjects({ projects }: EditorialProjectsProps) 
                       alt={project.title}
                       fill
                       sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="object-cover transition-transform duration-700 hover:scale-105"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute top-4 left-4 flex gap-2">
                       <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded bg-[#041214]/90 text-[#FEFAE0] backdrop-blur-sm font-semibold">
@@ -76,7 +77,7 @@ export default function EditorialProjects({ projects }: EditorialProjectsProps) 
                       <span className="text-xs font-mono text-[#A06733] block font-semibold">
                         CASE STUDY [{String(idx + 1).padStart(2, "0")}]
                       </span>
-                      <h3 className="text-3xl sm:text-4xl font-display font-normal text-[#1F2421] leading-tight">
+                      <h3 className="text-3xl sm:text-4xl font-display font-normal text-[#1F2421] leading-tight group-hover:text-[#A06733] transition-colors">
                         {project.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-[#5B6358] leading-relaxed pt-1 font-sans">
@@ -93,7 +94,7 @@ export default function EditorialProjects({ projects }: EditorialProjectsProps) 
                         {project.technologies.map((tech, tIdx) => (
                           <span
                             key={tIdx}
-                            className="px-2.5 py-1 rounded bg-[#E9EDC9] border border-[#CCD5AE] text-[#1F2421] text-[11px] font-mono"
+                            className="px-2.5 py-1 rounded bg-[#E9EDC9] border border-[#CCD5AE] text-[#1F2421] text-[11px] font-mono hover:border-[#D4A373] transition-colors"
                           >
                             {tech}
                           </span>
@@ -112,10 +113,10 @@ export default function EditorialProjects({ projects }: EditorialProjectsProps) 
                     <div className="pt-2 flex items-center gap-4">
                       <Link
                         href={`/portfolio/${project.slug}`}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#041214] hover:bg-[#D4A373] hover:text-[#1F2421] text-[#FEFAE0] font-mono text-xs font-semibold transition-all shadow-xs"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#041214] hover:bg-[#D4A373] hover:text-[#1F2421] text-[#FEFAE0] font-mono text-xs font-semibold transition-all shadow-xs hover:shadow-md"
                       >
                         <span>Case Study Architecture</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </Link>
 
                       {project.project_url && (

@@ -1,5 +1,6 @@
 import { getServices, getProjects } from "@/lib/store";
 import EditorialHero from "@/components/editorial/EditorialHero";
+import EditorialMarquee from "@/components/editorial/EditorialMarquee";
 import EditorialServices from "@/components/editorial/EditorialServices";
 import EditorialProjects from "@/components/editorial/EditorialProjects";
 import EditorialAbout from "@/components/editorial/EditorialAbout";
@@ -19,6 +20,9 @@ export default async function HomePage() {
     <div className="space-y-0">
       {/* 1. EDITORIAL HERO WITH SCULPTURAL 3D PIECE */}
       <EditorialHero />
+
+      {/* 1.1 RUNNING EDITORIAL TICKER MARQUEE */}
+      <EditorialMarquee />
 
       {/* 2. INTERACTIVE SCOPE ESTIMATOR (HUMAN DESIGN ARTIFACT) */}
       <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

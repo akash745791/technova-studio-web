@@ -38,8 +38,9 @@ export default function EditorialAbout() {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08 }}
-              className="space-y-2.5 pb-6 border-b border-[#CCD5AE]/70"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              className="space-y-2.5 pb-6 border-b border-[#CCD5AE]/70 hover:border-[#D4A373] transition-colors p-4 rounded-2xl hover:bg-[#FAEDCD]/40"
             >
               <div className="flex items-center gap-2 text-xs font-mono text-[#5B6358]">
                 <span className="font-bold">[{String(idx + 1).padStart(2, "0")}]</span>
